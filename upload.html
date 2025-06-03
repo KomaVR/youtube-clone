@@ -99,6 +99,9 @@
       <label for="videoUrl">Video URL (MP4 or embed link) *</label>
       <input type="url" id="videoUrl" name="videoUrl" required />
 
+      <label for="videoFile">Or Upload MP4 Video File</label>
+      <input type="file" id="videoFile" name="videoFile" accept="video/mp4" />
+
       <label for="thumbnailUrl">Thumbnail URL *</label>
       <input type="url" id="thumbnailUrl" name="thumbnailUrl" required />
 
@@ -125,6 +128,7 @@
       const uploadForm = document.getElementById('uploadForm');
       const errorMessage = document.getElementById('errorMessage');
       const successMessage = document.getElementById('successMessage');
+      const videoFileInput = document.getElementById('videoFile');
 
       uploadForm.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -133,14 +137,14 @@
 
         const title = uploadForm.title.value.trim();
         const description = uploadForm.description.value.trim();
-        const videoUrl = uploadForm.videoUrl.value.trim();
+        const videoUrlInput = uploadForm.videoUrl.value.trim();
         const thumbnailUrl = uploadForm.thumbnailUrl.value.trim();
         const prebuiltTags = Array.from(document.querySelectorAll('#prebuiltTags input[type="checkbox"]:checked')).map(cb => cb.value);
         const customTagsInput = uploadForm.customTags.value.trim();
         const customTags = customTagsInput ? customTagsInput.split(',').map(t => t.trim()).filter(t => t) : [];
 
-        if (!title || !description || !videoUrl || !thumbnailUrl) {
-          errorMessage.textContent = 'Please fill in all required fields.';
+        if (!title || !description || !thumbnailUrl) {
+          errorMessage.textContent = 'Please fill in all required fields except video URL or file.';
           return;
         }
 
@@ -151,36 +155,55 @@
           return;
         }
 
-        // Get existing videos or initialize empty array
-        const videos = JSON.parse(localStorage.getItem('videos') || '[]');
+        // Function to save video data
+        function saveVideo(videoUrl) {
+          const videos = JSON.parse(localStorage.getItem('videos') || '[]');
 
-        // Create new video object
-        const newVideo = {
-          id: 'video_' + Math.random().toString(36).substr(2, 9),
-          title,
-          description,
-          uploaderId: loggedInUserId,
-          uploadDate: new Date().toISOString(),
-          views: 0,
-          likes: [],
-          dislikes: [],
-          thumbnailUrl,
-          videoUrl,
-          tags: {
-            preset: prebuiltTags,
-            custom: customTags
-          },
-          comments: []
-        };
+          const newVideo = {
+            id: 'video_' + Math.random().toString(36).substr(2, 9),
+            title,
+            description,
+            uploaderId: loggedInUserId,
+            uploadDate: new Date().toISOString(),
+            views: 0,
+            likes: [],
+            dislikes: [],
+            thumbnailUrl,
+            videoUrl,
+            tags: {
+              preset: prebuiltTags,
+              custom: customTags
+            },
+            comments: []
+          };
 
-        videos.push(newVideo);
-        localStorage.setItem('videos', JSON.stringify(videos));
+          videos.push(newVideo);
+          localStorage.setItem('videos', JSON.stringify(videos));
 
-        successMessage.textContent = 'Video uploaded successfully! Redirecting to your profile...';
+          successMessage.textContent = 'Video uploaded successfully! Redirecting to your profile...';
 
-        setTimeout(() => {
-          window.location.href = 'profile.html';
-        }, 2000);
+          setTimeout(() => {
+            window.location.href = 'profile.html';
+          }, 2000);
+        }
+
+        if (videoFileInput.files.length > 0) {
+          const file = videoFileInput.files[0];
+          if (file.type !== 'video/mp4') {
+            errorMessage.textContent = 'Only MP4 video files are supported.';
+            return;
+          }
+          const reader = new FileReader();
+          reader.onload = function(event) {
+            const videoDataUrl = event.target.result;
+            saveVideo(videoDataUrl);
+          };
+          reader.readAsDataURL(file);
+        } else if (videoUrlInput) {
+          saveVideo(videoUrlInput);
+        } else {
+          errorMessage.textContent = 'Please provide a video URL or upload an MP4 file.';
+        }
       });
     });
   </script>
