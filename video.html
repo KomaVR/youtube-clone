@@ -45,6 +45,14 @@
 
     <main class="main-content" role="main" tabindex="-1">
       <!-- Video player and details will be rendered here by JavaScript -->
+      <section class="comments-section" aria-label="Comments">
+        <h3>Comments</h3>
+        <form id="commentForm" novalidate>
+          <textarea id="commentInput" rows="3" placeholder="Add a public comment..." required></textarea>
+          <button type="submit">Post Comment</button>
+        </form>
+        <div id="commentsList"></div>
+      </section>
     </main>
   </div>
 
