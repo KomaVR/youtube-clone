@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Upload Video - YouTube Clone</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .upload-container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: 500;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #333;
+    }
+    input[type="text"],
+    input[type="url"],
+    textarea,
+    select {
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+      resize: vertical;
+    }
+    textarea {
+      min-height: 100px;
+    }
+    .tags-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .tag-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .custom-tags {
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 12px;
+      background-color: #065fd4;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #0041a8;
+    }
+    .error-message {
+      color: red;
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+    .success-message {
+      color: green;
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="upload-container">
+    <h1>Upload Video</h1>
+    <form id="uploadForm" novalidate>
+      <div class="error-message" id="errorMessage"></div>
+      <div class="success-message" id="successMessage"></div>
+
+      <label for="title">Video Title *</label>
+      <input type="text" id="title" name="title" required />
+
+      <label for="description">Description *</label>
+      <textarea id="description" name="description" required></textarea>
+
+      <label for="videoUrl">Video URL (MP4 or embed link) *</label>
+      <input type="url" id="videoUrl" name="videoUrl" required />
+
+      <label for="thumbnailUrl">Thumbnail URL *</label>
+      <input type="url" id="thumbnailUrl" name="thumbnailUrl" required />
+
+      <label>Prebuilt Tags</label>
+      <div class="tags-container" id="prebuiltTags">
+        <label class="tag-checkbox"><input type="checkbox" value="Music" /> Music</label>
+        <label class="tag-checkbox"><input type="checkbox" value="Comedy" /> Comedy</label>
+        <label class="tag-checkbox"><input type="checkbox" value="Education" /> Education</label>
+        <label class="tag-checkbox"><input type="checkbox" value="Gaming" /> Gaming</label>
+        <label class="tag-checkbox"><input type="checkbox" value="News" /> News</label>
+        <label class="tag-checkbox"><input type="checkbox" value="Sports" /> Sports</label>
+        <label class="tag-checkbox"><input type="checkbox" value="Technology" /> Technology</label>
+      </div>
+
+      <label for="customTags">Custom Tags (comma separated)</label>
+      <input type="text" id="customTags" name="customTags" placeholder="e.g. travel, vlog, tutorial" />
+
+      <button type="submit">Upload Video</button>
+    </form>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const uploadForm = document.getElementById('uploadForm');
+      const errorMessage = document.getElementById('errorMessage');
+      const successMessage = document.getElementById('successMessage');
+
+      uploadForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        errorMessage.textContent = '';
+        successMessage.textContent = '';
+
+        const title = uploadForm.title.value.trim();
+        const description = uploadForm.description.value.trim();
+        const videoUrl = uploadForm.videoUrl.value.trim();
+        const thumbnailUrl = uploadForm.thumbnailUrl.value.trim();
+        const prebuiltTags = Array.from(document.querySelectorAll('#prebuiltTags input[type="checkbox"]:checked')).map(cb => cb.value);
+        const customTagsInput = uploadForm.customTags.value.trim();
+        const customTags = customTagsInput ? customTagsInput.split(',').map(t => t.trim()).filter(t => t) : [];
+
+        if (!title || !description || !videoUrl || !thumbnailUrl) {
+          errorMessage.textContent = 'Please fill in all required fields.';
+          return;
+        }
+
+        // Check if user is logged in
+        const loggedInUserId = localStorage.getItem('loggedInUserId');
+        if (!loggedInUserId) {
+          errorMessage.textContent = 'You must be logged in to upload videos.';
+          return;
+        }
+
+        // Get existing videos or initialize empty array
+        const videos = JSON.parse(localStorage.getItem('videos') || '[]');
+
+        // Create new video object
+        const newVideo = {
+          id: 'video_' + Math.random().toString(36).substr(2, 9),
+          title,
+          description,
+          uploaderId: loggedInUserId,
+          uploadDate: new Date().toISOString(),
+          views: 0,
+          likes: [],
+          dislikes: [],
+          thumbnailUrl,
+          videoUrl,
+          tags: {
+            preset: prebuiltTags,
+            custom: customTags
+          },
+          comments: []
+        };
+
+        videos.push(newVideo);
+        localStorage.setItem('videos', JSON.stringify(videos));
+
+        successMessage.textContent = 'Video uploaded successfully! Redirecting to your profile...';
+
+        setTimeout(() => {
+          window.location.href = 'profile.html';
+        }, 2000);
+      });
+    });
+  </script>
+</body>
+</html>
