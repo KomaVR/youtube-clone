@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Profile - YouTube Clone</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .profile-container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    .profile-avatar {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #ddd;
+    }
+    .profile-info {
+      flex-grow: 1;
+    }
+    .profile-info h2 {
+      margin: 0 0 10px;
+    }
+    .profile-info p {
+      margin: 0;
+      color: #666;
+    }
+    .video-section {
+      margin-top: 30px;
+    }
+    .video-section h3 {
+      margin-bottom: 20px;
+    }
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <button class="menu-btn" aria-label="Toggle menu">&#9776;</button>
+      <a href="index.html" class="logo-link" aria-label="YouTube Home">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" alt="YouTube Logo" class="logo" />
+      </a>
+    </div>
+    <form id="searchForm" class="search-form" role="search" aria-label="Site Search">
+      <input type="text" id="searchInput" placeholder="Search" aria-label="Search videos" autocomplete="off" />
+      <button type="submit" aria-label="Search">&#128269;</button>
+    </form>
+    <div class="header-right">
+      <button class="create-btn" aria-label="Create video">&#x2795;</button>
+      <button class="apps-btn" aria-label="YouTube apps">&#x25A3;</button>
+      <button class="notifications-btn" aria-label="Notifications">&#128276;</button>
+      <a href="login.html" class="sign-in-btn">Sign In</a>
+    </div>
+  </header>
+
+  <div class="container">
+    <aside class="sidebar" aria-label="Main navigation">
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#">Explore</a></li>
+          <li><a href="#">Subscriptions</a></li>
+          <li><a href="#">Library</a></li>
+          <li><a href="#">History</a></li>
+          <li><a href="#">Your Videos</a></li>
+          <li><a href="#">Watch Later</a></li>
+          <li><a href="#">Liked Videos</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="main-content" role="main" tabindex="-1">
+      <div class="profile-container">
+        <div class="profile-header">
+          <img src="" alt="Profile Avatar" class="profile-avatar" id="profileAvatar" />
+          <div class="profile-info">
+            <h2 id="profileUsername"></h2>
+            <p id="profileEmail"></p>
+            <p id="profileJoinDate"></p>
+            <p id="profileSubscribers"></p>
+          </div>
+        </div>
+
+        <section class="video-section">
+          <h3>Your Uploaded Videos</h3>
+          <div class="video-grid" id="uploadedVideosGrid">
+            <!-- User's uploaded videos will be rendered here -->
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <footer>
+    <p>© 2024 YouTube Clone. All rights reserved.</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = getLoggedInUser();
+      if (!user) {
+        alert('You must be logged in to view your profile.');
+        window.location.href = 'login.html';
+        return;
+      }
+
+      document.getElementById('profileAvatar').src = user.avatar || 'https://via.placeholder.com/100';
+      document.getElementById('profileUsername').textContent = user.username;
+      document.getElementById('profileEmail').textContent = user.email;
+      document.getElementById('profileJoinDate').textContent = 'Joined: ' + new Date(user.joinDate).toLocaleDateString();
+      document.getElementById('profileSubscribers').textContent = 'Subscribers: ' + (user.subscribers || 0);
+
+      const videos = JSON.parse(localStorage.getItem('videos') || '[]');
+      const uploadedVideos = videos.filter(v => v.uploaderId === user.id);
+      const uploadedVideosGrid = document.getElementById('uploadedVideosGrid');
+
+      if (uploadedVideos.length === 0) {
+        uploadedVideosGrid.innerHTML = '<p>You have not uploaded any videos yet.</p>';
+      } else {
+        uploadedVideosGrid.innerHTML = uploadedVideos.map(video => `
+          <a href="video.html?videoId=${video.id}" class="video-card" tabindex="0" data-video-id="${video.id}">
+            <img src="${video.thumbnailUrl}" alt="Video thumbnail" class="thumbnail" />
+            <div class="video-info">
+              <h3 class="video-title">${video.title}</h3>
+              <p class="video-meta">${new Date(video.uploadDate).toLocaleDateString()}</p>
+            </div>
+          </a>
+        `).join('');
+      }
+
+      function getLoggedInUser() {
+        const userId = localStorage.getItem('loggedInUserId');
+        if (!userId) return null;
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        return users.find(u => u.id === userId) || null;
+      }
+    });
+  </script>
+</body>
+</html>
