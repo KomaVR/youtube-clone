@@ -77,32 +77,6 @@
     </form>
   </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const loginForm = document.getElementById('loginForm');
-      const errorMessage = document.getElementById('errorMessage');
-
-      loginForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        errorMessage.textContent = '';
-
-        const username = loginForm.username.value.trim();
-        const password = loginForm.password.value.trim();
-
-        if (!username || !password) {
-          errorMessage.textContent = 'Please enter both username and password.';
-          return;
-        }
-
-        // Dummy credentials
-        if (username === 'admin' && password === 'password') {
-          localStorage.setItem('loggedIn', 'true');
-          window.location.href = 'index.html';
-        } else {
-          errorMessage.textContent = 'Invalid username or password.';
-        }
-      });
-    });
-  </script>
+  <script src="js/app2.js"></script>
 </body>
 </html>
