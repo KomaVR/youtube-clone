@@ -131,6 +131,7 @@
       const videoFileInput = document.getElementById('videoFile');
 
       uploadForm.addEventListener('submit', (e) => {
+        console.log('Upload form submitted');
         e.preventDefault();
         errorMessage.textContent = '';
         successMessage.textContent = '';
@@ -157,6 +158,7 @@
 
         // Function to save video data
         function saveVideo(videoUrl) {
+          console.log('Saving video with URL:', videoUrl);
           const videos = JSON.parse(localStorage.getItem('videos') || '[]');
 
           const newVideo = {
