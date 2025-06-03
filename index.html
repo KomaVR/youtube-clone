@@ -23,7 +23,7 @@
       <button class="create-btn" aria-label="Create video">&#x2795;</button>
       <button class="apps-btn" aria-label="YouTube apps">&#x25A3;</button>
       <button class="notifications-btn" aria-label="Notifications">&#128276;</button>
-      <button class="sign-in-btn" aria-label="Sign in">Sign In</button>
+      <a href="login.html" class="sign-in-btn">Sign In</a>
     </div>
   </header>
 
@@ -44,56 +44,56 @@
     </aside>
 
     <main class="main-content" role="main" tabindex="-1">
-      <section class="video-grid" aria-label="Recommended videos">
+    <section class="video-grid" aria-label="Recommended videos">
         <!-- Video cards -->
-        <article class="video-card" tabindex="0">
+        <a href="video.html?videoId=video1" class="video-card" tabindex="0" data-video-id="video1">
           <img src="https://images.pexels.com/photos/689407/pexels-photo-689407.jpeg?auto=compress&cs=tinysrgb&h=360" alt="Video thumbnail" class="thumbnail" />
           <div class="video-info">
             <h3 class="video-title">Sample Video Title 1</h3>
             <p class="channel-name">Channel Name 1</p>
             <p class="video-meta">1M views • 1 week ago</p>
           </div>
-        </article>
-        <article class="video-card" tabindex="0">
+        </a>
+        <a href="video.html?videoId=video2" class="video-card" tabindex="0" data-video-id="video2">
           <img src="https://images.pexels.com/photos/414171/pexels-photo-414171.jpeg?auto=compress&cs=tinysrgb&h=360" alt="Video thumbnail" class="thumbnail" />
           <div class="video-info">
             <h3 class="video-title">Sample Video Title 2</h3>
             <p class="channel-name">Channel Name 2</p>
             <p class="video-meta">500K views • 3 days ago</p>
           </div>
-        </article>
-        <article class="video-card" tabindex="0">
+        </a>
+        <a href="video.html?videoId=video3" class="video-card" tabindex="0" data-video-id="video3">
           <img src="https://images.pexels.com/photos/356378/pexels-photo-356378.jpeg?auto=compress&cs=tinysrgb&h=360" alt="Video thumbnail" class="thumbnail" />
           <div class="video-info">
             <h3 class="video-title">Sample Video Title 3</h3>
             <p class="channel-name">Channel Name 3</p>
             <p class="video-meta">2M views • 2 weeks ago</p>
           </div>
-        </article>
-        <article class="video-card" tabindex="0">
+        </a>
+        <a href="video.html?videoId=video4" class="video-card" tabindex="0" data-video-id="video4">
           <img src="https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg?auto=compress&cs=tinysrgb&h=360" alt="Video thumbnail" class="thumbnail" />
           <div class="video-info">
             <h3 class="video-title">Sample Video Title 4</h3>
             <p class="channel-name">Channel Name 4</p>
             <p class="video-meta">750K views • 5 days ago</p>
           </div>
-        </article>
-        <article class="video-card" tabindex="0">
+        </a>
+        <a href="video.html?videoId=video5" class="video-card" tabindex="0" data-video-id="video5">
           <img src="https://images.pexels.com/photos/356079/pexels-photo-356079.jpeg?auto=compress&cs=tinysrgb&h=360" alt="Video thumbnail" class="thumbnail" />
           <div class="video-info">
             <h3 class="video-title">Sample Video Title 5</h3>
             <p class="channel-name">Channel Name 5</p>
             <p class="video-meta">1.2M views • 1 month ago</p>
           </div>
-        </article>
-        <article class="video-card" tabindex="0">
+        </a>
+        <a href="video.html?videoId=video6" class="video-card" tabindex="0" data-video-id="video6">
           <img src="https://images.pexels.com/photos/414886/pexels-photo-414886.jpeg?auto=compress&cs=tinysrgb&h=360" alt="Video thumbnail" class="thumbnail" />
           <div class="video-info">
             <h3 class="video-title">Sample Video Title 6</h3>
             <p class="channel-name">Channel Name 6</p>
             <p class="video-meta">900K views • 3 weeks ago</p>
           </div>
-        </article>
+        </a>
       </section>
     </main>
   </div>
@@ -102,6 +102,6 @@
     <p>© 2024 YouTube Clone. All rights reserved.</p>
   </footer>
 
-  <script src="js/script.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>
