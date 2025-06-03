@@ -351,4 +351,75 @@ document.addEventListener('DOMContentLoaded', () => {
     recommendVideosForUser,
     getLoggedInUser
   };
+
+  // Comment handling for video page
+  document.addEventListener('DOMContentLoaded', () => {
+    const currentPage = window.location.pathname.split('/').pop();
+    if (currentPage !== 'video.html') return;
+
+    const params = new URLSearchParams(window.location.search);
+    const videoId = params.get('videoId');
+    if (!videoId) return;
+
+    const commentForm = document.getElementById('commentForm');
+    const commentInput = document.getElementById('commentInput');
+    const commentsList = document.getElementById('commentsList');
+
+    function loadComments() {
+      const videos = getAllVideos();
+      const video = videos.find(v => v.id === videoId);
+      if (!video) return;
+
+      commentsList.innerHTML = '';
+      if (!video.comments || video.comments.length === 0) {
+        commentsList.innerHTML = '<p>No comments yet. Be the first to comment!</p>';
+        return;
+      }
+
+      video.comments.forEach(comment => {
+        const commentEl = document.createElement('div');
+        commentEl.className = 'comment';
+        commentEl.style.borderBottom = '1px solid #ddd';
+        commentEl.style.padding = '8px 0';
+
+        const userName = getUserNameById(comment.userId) || 'Unknown';
+
+        commentEl.innerHTML = `
+          <p><strong>${userName}</strong> <small>${new Date(comment.date).toLocaleString()}</small></p>
+          <p>${comment.text}</p>
+        `;
+        commentsList.appendChild(commentEl);
+      });
+    }
+
+    commentForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = commentInput.value.trim();
+      if (!text) return;
+
+      const loggedInUser = getLoggedInUser();
+      if (!loggedInUser) {
+        alert('You must be logged in to post comments.');
+        return;
+      }
+
+      const videos = getAllVideos();
+      const video = videos.find(v => v.id === videoId);
+      if (!video) return;
+
+      if (!video.comments) video.comments = [];
+
+      video.comments.push({
+        userId: loggedInUser.id,
+        text,
+        date: new Date().toISOString()
+      });
+
+      saveVideos(videos);
+      commentInput.value = '';
+      loadComments();
+    });
+
+    loadComments();
+  });
 });
