@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>YouTube Clone</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <button class="menu-btn" aria-label="Toggle menu">&#9776;</button>
+      <a href="#" class="logo-link" aria-label="YouTube Home">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" alt="YouTube Logo" class="logo" />
+      </a>
+    </div>
+    <form id="searchForm" class="search-form" role="search" aria-label="Site Search">
+      <input type="text" id="searchInput" placeholder="Search" aria-label="Search videos" autocomplete="off" />
+      <button type="submit" aria-label="Search">&#128269;</button>
+    </form>
+    <div class="header-right">
+      <button class="create-btn" aria-label="Create video">&#x2795;</button>
+      <button class="apps-btn" aria-label="YouTube apps">&#x25A3;</button>
+      <button class="notifications-btn" aria-label="Notifications">&#128276;</button>
+      <button class="sign-in-btn" aria-label="Sign in">Sign In</button>
+    </div>
+  </header>
+
+  <div class="container">
+    <aside class="sidebar" aria-label="Main navigation">
+      <nav>
+        <ul>
+          <li><a href="#" class="active" aria-current="page">Home</a></li>
+          <li><a href="#">Explore</a></li>
+          <li><a href="#">Subscriptions</a></li>
+          <li><a href="#">Library</a></li>
+          <li><a href="#">History</a></li>
+          <li><a href="#">Your Videos</a></li>
+          <li><a href="#">Watch Later</a></li>
+          <li><a href="#">Liked Videos</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="main-content" role="main" tabindex="-1">
+      <section class="video-grid" aria-label="Recommended videos">
+        <!-- Video cards -->
+        <article class="video-card" tabindex="0">
+          <img src="https://images.pexels.com/photos/689407/pexels-photo-689407.jpeg?auto=compress&cs=tinysrgb&h=360" alt="Video thumbnail" class="thumbnail" />
+          <div class="video-info">
+            <h3 class="video-title">Sample Video Title 1</h3>
+            <p class="channel-name">Channel Name 1</p>
+            <p class="video-meta">1M views • 1 week ago</p>
+          </div>
+        </article>
+        <article class="video-card" tabindex="0">
+          <img src="https://images.pexels.com/photos/414171/pexels-photo-414171.jpeg?auto=compress&cs=tinysrgb&h=360" alt="Video thumbnail" class="thumbnail" />
+          <div class="video-info">
+            <h3 class="video-title">Sample Video Title 2</h3>
+            <p class="channel-name">Channel Name 2</p>
+            <p class="video-meta">500K views • 3 days ago</p>
+          </div>
+        </article>
+        <article class="video-card" tabindex="0">
+          <img src="https://images.pexels.com/photos/356378/pexels-photo-356378.jpeg?auto=compress&cs=tinysrgb&h=360" alt="Video thumbnail" class="thumbnail" />
+          <div class="video-info">
+            <h3 class="video-title">Sample Video Title 3</h3>
+            <p class="channel-name">Channel Name 3</p>
+            <p class="video-meta">2M views • 2 weeks ago</p>
+          </div>
+        </article>
+        <article class="video-card" tabindex="0">
+          <img src="https://images.pexels.com/photos/325185/pexels-photo-325185.jpeg?auto=compress&cs=tinysrgb&h=360" alt="Video thumbnail" class="thumbnail" />
+          <div class="video-info">
+            <h3 class="video-title">Sample Video Title 4</h3>
+            <p class="channel-name">Channel Name 4</p>
+            <p class="video-meta">750K views • 5 days ago</p>
+          </div>
+        </article>
+        <article class="video-card" tabindex="0">
+          <img src="https://images.pexels.com/photos/356079/pexels-photo-356079.jpeg?auto=compress&cs=tinysrgb&h=360" alt="Video thumbnail" class="thumbnail" />
+          <div class="video-info">
+            <h3 class="video-title">Sample Video Title 5</h3>
+            <p class="channel-name">Channel Name 5</p>
+            <p class="video-meta">1.2M views • 1 month ago</p>
+          </div>
+        </article>
+        <article class="video-card" tabindex="0">
+          <img src="https://images.pexels.com/photos/414886/pexels-photo-414886.jpeg?auto=compress&cs=tinysrgb&h=360" alt="Video thumbnail" class="thumbnail" />
+          <div class="video-info">
+            <h3 class="video-title">Sample Video Title 6</h3>
+            <p class="channel-name">Channel Name 6</p>
+            <p class="video-meta">900K views • 3 weeks ago</p>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <footer>
+    <p>© 2024 YouTube Clone. All rights reserved.</p>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
